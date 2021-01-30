@@ -20,69 +20,73 @@
       setInterval(game, 80);
 
       const vel = 1;
+      let countLife = 3;
       let count = 0;
-      let vx = vy = 0;
-      let px = py = 10;
-      let tp = 20;
-      let qp = 20;
-      let ax = ay = 15;
+      let velX = velY = 0;
+      let snakeX = snakeY = 10;
+      let pieceStage = 20;
+      let pieceAmount = 20;
+      let appleX = appleY = 15;
       let trail = [];
       tail = 5;
 
       function game() {
-        px += vx;
-        py += vy;
+        snakeX += velX;
+        snakeY += velY;
 
-        if (px < 0) { px = qp - 1 };
-        if (py < 0) { py = qp - 1 };
-        if (px > qp - 1) { px = 0 }
-        if (py > qp - 1) { py = 0 }
+        if (snakeX < 0) { snakeX = pieceAmount - 1 };
+        if (snakeY < 0) { snakeY = pieceAmount - 1 };
+        if (snakeX > pieceAmount - 1) { snakeX = 0 }
+        if (snakeY > pieceAmount - 1) { snakeY = 0 }
 
         ctx.fillStyle = '#ACCB9C';
         ctx.fillRect(0, 0, stage.width, stage.height);
 
         ctx.fillStyle = 'red';
-        ctx.fillRect(ax * tp, ay * tp, tp, tp);
+        ctx.fillRect(appleX * pieceStage, appleY * pieceStage, pieceStage, pieceStage);
 
 
         ctx.fillStyle = 'grey';
         for (let i = 0; i < trail.length; i++) {
-          ctx.fillRect(trail[i].x * tp, trail[i].y * tp, tp - 1, tp - 1);
-          if (trail[i].x == px && trail[i].y == py) {
-            vx = vy = 0;
-            px = py = 10
+          ctx.fillRect(trail[i].x * pieceStage, trail[i].y * pieceStage, pieceStage - 1, pieceStage - 1);
+          if (trail[i].x == snakeX && trail[i].y == snakeY) {
+            count = 0;
+            velX = velY = 0;
+            snakeX = snakeY = 10;
             tail = 5;
+
           }
         }
-        trail.push({ x: px, y: py })
+
+        trail.push({ x: snakeX, y: snakeY })
         while (trail.length > tail) {
           trail.shift();
         }
-        if (ax === px && ay === py) {
+        if (appleX === snakeX && appleY === snakeY) {
           tail++;
           count++;
-          ax = Math.floor(Math.random() * qp);
-          ay = Math.floor(Math.random() * qp);
+          appleX = Math.floor(Math.random() * pieceAmount);
+          appleY = Math.floor(Math.random() * pieceAmount);
           document.getElementById('contador').innerHTML = count;
         }
       }
       function keyPush(event) {
         switch (event.keyCode) {
           case 37:
-            vx = -vel;
-            vy = 0;
+            velX = -vel;
+            velY = 0;
             break;
           case 38:
-            vx = 0;
-            vy = -vel;
+            velX = 0;
+            velY = -vel;
             break;
           case 39:
-            vx = vel;
-            vy = 0;
+            velX = vel;
+            velY = 0;
             break;
           case 40:
-            vx = 0;
-            vy = vel;
+            velX = 0;
+            velY = vel;
             break;
           default:
             break;
