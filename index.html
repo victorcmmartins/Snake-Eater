@@ -49,11 +49,15 @@
         for (let i = 0; i < trail.length; i++) {
           ctx.fillRect(trail[i].x * tp, trail[i].y * tp, tp - 1, tp - 1);
           if (trail[i].x == px && trail[i].y == py) {
+            count = 0;
             vx = vy = 0;
-            px = py = 10
+            px = py = 10;
             tail = 5;
+
           }
+
         }
+
         trail.push({ x: px, y: py })
         while (trail.length > tail) {
           trail.shift();
